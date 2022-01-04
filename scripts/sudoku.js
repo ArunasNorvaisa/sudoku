@@ -1,22 +1,22 @@
 class Sudoku {
 
 // given a sudoku cell, returns the row
-  static #returnRow(cell) {
+  static #getRow(cell) {
     return Math.floor(cell / 9);
   }
 
 // given a sudoku cell, returns the column
-  static #returnCol(cell) {
+  static #getCol(cell) {
     return cell % 9;
   }
 
 // given a sudoku cell, returns the 3x3 block
-  static #returnBlock(cell) {
-    return Math.floor(this.#returnRow(cell) / 3) * 3 + Math.floor(this.#returnCol(cell) / 3);
+  static #getBlock(cell) {
+    return Math.floor(this.#getRow(cell) / 3) * 3 + Math.floor(this.#getCol(cell) / 3);
   }
 
 // given a number, a row and a sudoku, returns true if the number can be placed in the row
-  static #isPossibleRow(number, row, sudoku) {
+  static #isPlaceableInARow(number, row, sudoku) {
     for (let i = 0; i <= 8; i++) {
       if (sudoku[row * 9 + i] === number) {
         return false;
@@ -27,7 +27,7 @@ class Sudoku {
   }
 
 // given a number, a column and a sudoku, returns true if the number can be placed in the column
-  static #isPossibleCol(number, col, sudoku) {
+  static #isPlaceableInACol(number, col, sudoku) {
     for (let i = 0; i <= 8; i++) {
       if (sudoku[col + 9 * i] === number) {
         return false;
@@ -37,8 +37,8 @@ class Sudoku {
     return true;
   }
 
-// given a number, a 3x3 block and a sudoku, returns true if the number can be placed in the block
-  static #isPossibleBlock(number, block, sudoku) {
+// given a number, a 3 x 3 block and a sudoku, returns true if the number can be placed in the block
+  static #isPlaceableInABlock(number, block, sudoku) {
     for (let i = 0; i <= 8; i++) {
       if (sudoku[Math.floor(block / 3) * 27 + i % 3 + 9 * Math.floor(i / 3) + 3 * (block % 3)] === number) {
         return false;
@@ -50,49 +50,46 @@ class Sudoku {
 
 // given a cell, a number and a sudoku, returns true if the number can be placed in the cell
   static #isPossibleNumber(cell, number, sudoku) {
-    const row = this.#returnRow(cell);
-    const col = this.#returnCol(cell);
-    const block = this.#returnBlock(cell);
+    const row = this.#getRow(cell);
+    const col = this.#getCol(cell);
+    const block = this.#getBlock(cell);
 
-    return this.#isPossibleRow(number, row, sudoku) &&
-           this.#isPossibleCol(number, col, sudoku) &&
-           this.#isPossibleBlock(number, block, sudoku);
+    return this.#isPlaceableInARow(number, row, sudoku) &&
+           this.#isPlaceableInACol(number, col, sudoku) &&
+           this.#isPlaceableInABlock(number, block, sudoku);
   }
 
 // given a row and a sudoku, returns true if it's a legal row
   static #isCorrectRow(row, sudoku) {
-    const rightSequence = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const rightSequence = '123456789';
     const rowTemp = [];
     for (let i = 0; i <= 8; i++) {
       rowTemp[i] = sudoku[row * 9 + i];
     }
-    rowTemp.sort();
 
-    return rowTemp.join() === rightSequence.join();
+    return rowTemp.sort().join('') === rightSequence;
   }
 
 // given a column and a sudoku, returns true if it's a legal column
   static #isCorrectCol(col, sudoku) {
-    const rightSequence = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const rightSequence = '123456789';
     const colTemp = [];
     for (let i = 0; i <= 8; i++) {
       colTemp[i] = sudoku[col + i * 9];
     }
-    colTemp.sort();
 
-    return colTemp.join() === rightSequence.join();
+    return colTemp.sort().join('') === rightSequence;
   }
 
 // given a 3x3 block and a sudoku, returns true if it's a legal block
   static #isCorrectBlock(block, sudoku) {
-    const rightSequence = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const rightSequence = '123456789';
     const blockTemp = [];
     for (let i = 0; i <= 8; i++) {
       blockTemp[i] = sudoku[Math.floor(block / 3) * 27 + i % 3 + 9 * Math.floor(i / 3) + 3 * (block % 3)];
     }
-    blockTemp.sort();
 
-    return blockTemp.join() === rightSequence.join();
+    return blockTemp.sort().join('') === rightSequence;
   }
 
 // given a sudoku, returns true if the sudoku is solved
