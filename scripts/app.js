@@ -50,7 +50,6 @@ const generate = (complexity = 'medium') => {
   sudoku = sudokuObject.create(complexity);
   paintEmptyBoard();
   populate(sudoku.unsolved, false);
-  console.log('L53 sudoku ===', sudoku);
 };
 
 generate();
