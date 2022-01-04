@@ -33,7 +33,7 @@ const populate = (sol, checkSolution) => {
   const inputs = document.querySelectorAll('input');
   if (sol.length > 0) {
     inputs.forEach((input, i) => {
-      if (checkSolution && sol[i] !== input.value) {
+      if (checkSolution && sol[i] !== Number(input.value)) {
         input.classList.add('incorrect');
       }
       if (sol[i] === 0) {
