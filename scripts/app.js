@@ -36,7 +36,7 @@ const populate = (sol, checkSolution) => {
       if (checkSolution && sol[i] !== input.value) {
         input.classList.add('incorrect');
       }
-      if (sol[i] === '.') {
+      if (sol[i] === 0) {
         input.value = '';
       } else {
         input.value = sol[i];
@@ -50,9 +50,10 @@ const generate = (complexity = 'medium') => {
   sudoku = sudokuObject.create(complexity);
   paintEmptyBoard();
   populate(sudoku.unsolved, false);
+  console.log('L53 sudoku ===', sudoku);
 };
 
-generate('medium');
+generate();
 solverButton.addEventListener('click', () => populate(sudoku.solved, true));
 generatorButtonVeryEasy.addEventListener('click', () => generate('veryEasy'));
 generatorButtonEasy.addEventListener('click', () => generate('easy'));

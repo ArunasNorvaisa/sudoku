@@ -178,10 +178,10 @@ class Sudoku {
   static #replaceWithDots(sudoku, complexity) {
     const unsolvedSudoku = [];
     for (let i = 0; i < sudoku.length; i++) {
-      Math.random() > this.mapComplexityToRandomness[complexity] ? unsolvedSudoku[i] = '.' : unsolvedSudoku[i] = sudoku[i];
+      Math.random() > this.mapComplexityToRandomness[complexity] ? unsolvedSudoku[i] = 0 : unsolvedSudoku[i] = sudoku[i];
     }
 
-    return unsolvedSudoku.join('');
+    return unsolvedSudoku;
   }
 
 // given complexity, creates a sudoku and returns both solved and unsolved ones
@@ -211,7 +211,7 @@ class Sudoku {
     }
 
     return {
-      solved: sudoku.join(''),
+      solved: sudoku,
       unsolved: Sudoku.#replaceWithDots(sudoku, complexity)
     };
   }
