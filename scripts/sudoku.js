@@ -164,8 +164,8 @@ class Sudoku {
     return minChoices;
   }
 
-  // translates complexity to the chance number to appear on board
-  static mapComplexityToRandomness = {
+  // translates complexity to the chance for number to appear on board
+  mapComplexityToRandomness = {
     veryEasy : 0.8,
     easy     : 0.7,
     medium   : 0.6,
@@ -174,11 +174,12 @@ class Sudoku {
     inhuman  : 0.35
   };
 
-  // given a sudoku and complexity, replaces some elements in solved sudoku with dots
-  static #replaceWithDots(sudoku, complexity) {
+  // given a sudoku and complexity, replaces some elements in solved sudoku with zeroes
+  replaceWithZeroes(sudoku, complexity) {
     const unsolvedSudoku = [];
+    const chanceToBeShown = this.mapComplexityToRandomness[complexity];
     for (let i = 0; i < sudoku.length; i++) {
-      Math.random() > this.mapComplexityToRandomness[complexity] ? unsolvedSudoku[i] = 0 : unsolvedSudoku[i] = sudoku[i];
+      unsolvedSudoku[i] = Math.random() < chanceToBeShown ? sudoku[i] : 0;
     }
 
     return unsolvedSudoku;
@@ -212,7 +213,7 @@ class Sudoku {
 
     return {
       solved: sudoku,
-      unsolved: Sudoku.#replaceWithDots(sudoku, complexity)
+      unsolved: this.replaceWithZeroes(sudoku, complexity)
     };
   }
 }
